@@ -89,16 +89,6 @@ canvas.create_text(
     font = ("SegoeUI", 30 * -1)
 )
 
-#creates background rectangle for the title of the screen
-canvas.create_rectangle(
-    375.0,
-    14.0,
-    635.0,
-    46.0,
-    fill = "#C4C4C4",
-    outline = ""
-)
-
 #creates the text for the title of the screen
 canvas.create_text(
     382.0,
@@ -152,7 +142,7 @@ for i in range(20):
         104.0,
         red_entry_y_pos,
         anchor = "nw",
-        text = i,
+        text = f'{i:2}',
         fill = "#5F5E5E",
         font = ("SegoeUI", 20 * -1)
     )
@@ -182,7 +172,7 @@ for j in range(20):
         504.0,
         green_entry_y_pos,
         anchor = "nw",
-        text = j,
+        text = f'{j:2}',
         fill = "#5F5E5E",
         font = ("SegoeUI", 20 * -1)
     )
