@@ -22,7 +22,6 @@ class View:
 		window.geometry("1027x832")
 		window.configure(bg = "#000000")
 		window.title('Player Entry Screen')
-
 		canvas = Canvas(
 			window,
 			bg = "#000000",
@@ -56,9 +55,9 @@ class View:
 
 		#creates background rectangle for red team title
 		canvas.create_rectangle(
-			210.0,
+			229.0,
 			61.0,
-			352.0,
+			372.0,
 			89.0,
 			fill = "#330000",
 			outline = 'gray'
@@ -66,7 +65,7 @@ class View:
 
 		#creates text for red team title
 		canvas.create_text(
-			212.0,
+			231.0,
 			58.0,
 			anchor = "nw",
 			text = "Red Team",
@@ -76,9 +75,9 @@ class View:
 
 		#creates background rectangle for green team title
 		canvas.create_rectangle(
-			610.0,
+			615.0,
 			61.0,
-			779.0,
+			785.0,
 			89.0,
 			fill = "#003300",
 			outline = 'gray'
@@ -86,7 +85,7 @@ class View:
 
 		#creates text for green team title
 		canvas.create_text(
-			612.0,
+			617.0,
 			58.0,
 			anchor = "nw",
 			text = "Green Team",
@@ -124,23 +123,39 @@ class View:
 			font = ("SegoeUI", 20 * -1)
 		)
 
+		#creates team entry height and width constants
+		entry_width = 170.0
+		entry_heigh = 23.0
+		codename_entry_offset = 180.0
 		#loop to create player entry boxes for the red team
-		red_entries = []
-		red_entry_width = 325.0
-		red_entry_height = 23.0
+		red_entries_id = []
+		red_entries_codename = []
 		red_entry_x_pos = 132.0
 		red_entry_y_pos = 93.0
 		for i in range(20):
-			entry = Entry(
+			#creates entry for id of player for red team
+			entry_id = Entry(
 				bd = 0,
 				bg = "#FFFFFF",
 				highlightthickness = 0
 			)
-			entry.place(
+			entry_id.place(
 				x = red_entry_x_pos,
 				y = red_entry_y_pos,
-				width = red_entry_width,
-				height = red_entry_height
+				width = entry_width,
+				height = entry_heigh
+			)
+			#creates entry for codename of player for red team
+			entry_codename = Entry(
+				bd = 0,
+				bg = "#FFFFFF",
+				highlightthickness = 0
+			)
+			entry_codename.place(
+				x = red_entry_x_pos + codename_entry_offset,
+				y = red_entry_y_pos,
+				width = entry_width,
+				height = entry_heigh
 			)
 			#creates entry number next to box for red team
 			canvas.create_text(
@@ -151,26 +166,40 @@ class View:
 				fill = "#5F5E5E",
 				font = ("SegoeUI", 20 * -1)
 			)
-			red_entries.append(entry)
+			#adds entry to array and increases the y pos of next entry
+			red_entries_id.append(entry_id)
+			red_entries_codename.append(entry_codename)
 			red_entry_y_pos += 31.0
 
 		#loop to create entry boxes for the green team
-		green_entries = []
-		green_entry_width = 325.0
-		green_entry_height = 23.0
+		green_entries_id = []
+		green_entries_codename = []
 		green_entry_x_pos = 532.0
 		green_entry_y_pos = 93.0
 		for j in range(20):
-			entry = Entry(
+			#creates entry for id of player for green team
+			entry_id = Entry(
 				bd = 0,
 				bg = "#FFFFFF",
 				highlightthickness = 0
 			)
-			entry.place(
+			entry_id.place(
 				x = green_entry_x_pos,
 				y = green_entry_y_pos,
-				width = green_entry_width,
-				height = green_entry_height
+				width = entry_width,
+				height = entry_heigh
+			)
+			#creates entry for codename of player for green team
+			entry_codename = Entry(
+				bd = 0,
+				bg = "#FFFFFF",
+				highlightthickness = 0
+			)
+			entry_codename.place(
+				x = green_entry_x_pos + codename_entry_offset,
+				y = green_entry_y_pos,
+				width = entry_width,
+				height = entry_heigh
 			)
 			#creates entry number next to box for green team
 			canvas.create_text(
@@ -181,7 +210,9 @@ class View:
 				fill = "#5F5E5E",
 				font = ("SegoeUI", 20 * -1)
 			)
-			green_entries.append(entry)
+			#adds entry array and increases the y pos of next entry
+			green_entries_id.append(entry_id)
+			green_entries_codename.append(entry_codename)
 			green_entry_y_pos += 31.0
 
 		#code below creates all of the buttons at the bottom of the window (8 buttons in total)
