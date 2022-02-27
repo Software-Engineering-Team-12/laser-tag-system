@@ -123,6 +123,22 @@ class View:
 			font = ("SegoeUI", 20 * -1)
 		)
 
+		#method to add all of the entries to arrays for storage
+		def gatherEntries():
+			red_entries = []
+			green_entries = []
+			for n in range(20):
+				red_id = red_entries_id[n].get()
+				red_codename = red_entries_codename[n].get()
+				green_id = green_entries_id[n].get()
+				green_codename = green_entries_codename[n].get()
+				red_dict = {"id": red_id, "codename": red_codename}
+				green_dict = {"id": green_id, "codename": green_codename}
+				red_entries.append(red_dict)
+				green_entries.append(green_dict)
+			print(red_entries)
+			print(green_entries)
+
 		#creates team entry height and width constants
 		entry_width = 170.0
 		entry_heigh = 23.0
@@ -134,11 +150,7 @@ class View:
 		red_entry_y_pos = 93.0
 		for i in range(20):
 			#creates entry for id of player for red team
-			entry_id = Entry(
-				bd = 0,
-				bg = "#FFFFFF",
-				highlightthickness = 0
-			)
+			entry_id = Entry(window)
 			entry_id.place(
 				x = red_entry_x_pos,
 				y = red_entry_y_pos,
@@ -146,11 +158,7 @@ class View:
 				height = entry_heigh
 			)
 			#creates entry for codename of player for red team
-			entry_codename = Entry(
-				bd = 0,
-				bg = "#FFFFFF",
-				highlightthickness = 0
-			)
+			entry_codename = Entry(window)
 			entry_codename.place(
 				x = red_entry_x_pos + codename_entry_offset,
 				y = red_entry_y_pos,
@@ -178,11 +186,7 @@ class View:
 		green_entry_y_pos = 93.0
 		for j in range(20):
 			#creates entry for id of player for green team
-			entry_id = Entry(
-				bd = 0,
-				bg = "#FFFFFF",
-				highlightthickness = 0
-			)
+			entry_id = Entry(window)
 			entry_id.place(
 				x = green_entry_x_pos,
 				y = green_entry_y_pos,
@@ -190,11 +194,7 @@ class View:
 				height = entry_heigh
 			)
 			#creates entry for codename of player for green team
-			entry_codename = Entry(
-				bd = 0,
-				bg = "#FFFFFF",
-				highlightthickness = 0
-			)
+			entry_codename = Entry(window)
 			entry_codename.place(
 				x = green_entry_x_pos + codename_entry_offset,
 				y = green_entry_y_pos,
@@ -220,8 +220,6 @@ class View:
 			file = relative_to_assets("button_1.png"))
 		button_1 = Button(
 			image = button_image_1,
-			borderwidth = 0,
-			highlightthickness = 0,
 			command = lambda: print("button_1 clicked"),
 			relief = "flat"
 		)
@@ -236,8 +234,6 @@ class View:
 			file = relative_to_assets("button_2.png"))
 		button_2 = Button(
 			image = button_image_2,
-			borderwidth = 0,
-			highlightthickness = 0,
 			command = lambda: print("button_2 clicked"),
 			relief = "flat"
 		)
@@ -252,8 +248,6 @@ class View:
 			file = relative_to_assets("button_3.png"))
 		button_3 = Button(
 			image = button_image_3,
-			borderwidth = 0,
-			highlightthickness = 0,
 			command = lambda: print("button_3 clicked"),
 			relief = "flat"
 		)
@@ -268,8 +262,6 @@ class View:
 			file = relative_to_assets("button_4.png"))
 		button_4 = Button(
 			image = button_image_4,
-			borderwidth = 0,
-			highlightthickness = 0,
 			command = lambda: print("button_4 clicked"),
 			relief = "flat"
 		)
@@ -284,9 +276,7 @@ class View:
 			file = relative_to_assets("button_5.png"))
 		button_5 = Button(
 			image = button_image_5,
-			borderwidth = 0,
-			highlightthickness = 0,
-			command = lambda: print("button_5 clicked"),
+			command = gatherEntries,
 			relief = "flat"
 		)
 		button_5.place(
@@ -300,8 +290,6 @@ class View:
 			file = relative_to_assets("button_6.png"))
 		button_6 = Button(
 			image = button_image_6,
-			borderwidth = 0,
-			highlightthickness = 0,
 			command = lambda: print("button_6 clicked"),
 			relief = "flat"
 		)
@@ -316,8 +304,6 @@ class View:
 			file = relative_to_assets("button_7.png"))
 		button_7 = Button(
 			image = button_image_7,
-			borderwidth = 0,
-			highlightthickness = 0,
 			command = lambda: print("button_7 clicked"),
 			relief = "flat"
 		)
@@ -332,8 +318,6 @@ class View:
 			file = relative_to_assets("button_8.png"))
 		button_8 = Button(
 			image = button_image_8,
-			borderwidth = 0,
-			highlightthickness = 0,
 			command = lambda: print("button_8 clicked"),
 			relief = "flat"
 		)
