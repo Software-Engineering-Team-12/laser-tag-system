@@ -7,7 +7,7 @@ if __name__=='__main__':
 #	print('Hello World!')
 
 	test = Model()
-	test.db_open()
+	test.get_db_cred()
 
 
 
