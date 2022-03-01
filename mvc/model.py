@@ -61,25 +61,25 @@ class Model:
 		except:
 		
 			print('Connection failed! Double check the database credentials are correct.')
-			
+
+
 	#This method closes the database
 	def db_close(self):
-		
 		
 		#This will try to close the database
 		try:
 		
-			#This will close the database connection
+			# This will close the database connection
 			self.db_connection.close()
 		
-			#This will print out a message if we successfully closed the database
-			print("Michael is still awesome and the database is closed")
+			# This will print out a message if we successfully closed the database
+			print("Database connection closed successfully!")
 				
 		except:
 		
 			print("An error has occured and the database did not close successfully")
 			
-		#Setting the db connection and the cursor back to their original state of empty
+		# Setting the db connection and the cursor back to their original state of empty
 		self.db_connection = None
 		self.cursor = None
 			
