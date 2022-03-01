@@ -13,43 +13,51 @@ class Model:
 		self.cursor = None
 
 
+	# Gets the database url from the text file
 	def get_db_cred(self):
 
-		# Name of file
+		# Name of text file
 		file_name = 'db-cred.txt'
 
-		# Sub directory
+		# Sub directory file resides in
 		sub_dir = 'mvc'	
 
-		# Form location
+		# Form location to file
 		location = os.path.join(os.getcwd(), sub_dir)
 		location = os.path.join(location, file_name)
 
-		# test print 
-		print(location)
+		# Try and open the db-cred file		
+		try:
+
+			# Open file and return the url
+			with open(location, 'r') as file:
+
+				return file.read()
+
+		# If it fails, handle error
+		except IOError:
+			
+			print('An error occured while opening the db-cred.txt file. Please make sure it exists with the proper name.')
 
 
+	# Opens the database for reading/writing
 	def db_open(self):
 
 		# Holds the database url
-		database_url = None
+		database_url = self.get_db_cred() 
 
-		#hardcoded database url
-		database_url = "postgres://qozokrewqjtyqa:4809a75a9fdebd8c152ab487c17d78b0afd2f82cb7ac56f90500e6d5bef5f51d@ec2-44-192-245-97.compute-1.amazonaws.com:5432/d81h6qe173j5pl"
-		
 		# Try and connect to the database
 		try:
 		
-			#line to open the database itself using the database URL
+			# Create connection to the database
 			self.db_connection = psycopg2.connect(database_url, sslmode='require') 
 			
-			#If the connection is successful print out how awesome Michael the creator is
-			if(self.db_connection):
-				print("Michael is awesome")
-				
-			#sets the cursor value
+			# Sets the cursor value
 			self.cursor = self.db_connection.cursor()
-			
+
+			print('Database connection successful!')
+
+		# If it fails, handle error
 		except:
 		
-			print("Error has occured trying to connect to the database")
+			print('Connection failed! Double check the database credentials are correct.')
