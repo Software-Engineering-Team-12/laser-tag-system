@@ -45,7 +45,7 @@ class Model:
 			
 			#If the connection is successful print out how awesome Michael the creator is
 			if(self.db_connection):
-				print("Michael is awesome")
+				print("Michael is awesome and the databse is Connected")
 				
 			#sets the cursor value
 			self.cursor = self.db_connection.cursor()
@@ -53,3 +53,26 @@ class Model:
 		except:
 		
 			print("Error has occured trying to connect to the database")
+			
+			
+			
+	#This method closes the database
+	def db_close(self):
+		
+		
+		#This will try to close the database
+		try:
+		
+			#This will close the database connection
+			self.db_connection.close()
+		
+			#This will print out a message if we successfully closed the database
+			print("Michael is still awesome and the database is closed")
+				
+		except:
+		
+			print("An error has occured and the database did not close successfully")
+			
+		#Setting the db connection and the cursor back to their original state of empty
+		self.db_connection = None
+		self.cursor = None
