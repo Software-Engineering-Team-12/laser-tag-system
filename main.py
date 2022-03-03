@@ -1,5 +1,4 @@
-import src.splashscreen as sscreen
-
+# Main function
 if __name__=='__main__':
 
-	splash = sscreen.SplashScreen()
+	print('Hello World!')
