@@ -131,8 +131,8 @@ class View:
 		entry_height = 23.0
 		codename_entry_offset = 180.0
 		# Loop to create player entry boxes for the red team
-		self.red_entries_id = []
-		self.red_entries_codename = []
+		# self.red_entries_id = []
+		# self.red_entries_codename = []
 		red_entry_x_pos = 132.0
 		red_entry_y_pos = 93.0
 		for i in range(20):
@@ -167,13 +167,13 @@ class View:
 			entry_id.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:self.controller.queryDB(id, name))
 			entry_codename.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:self.controller.storeDB(id, name))
 			# Adds entry to array and increases the y pos of next entry
-			self.red_entries_id.append(entry_id)
-			self.red_entries_codename.append(entry_codename)
+			# self.red_entries_id.append(entry_id)
+			# self.red_entries_codename.append(entry_codename)
 			red_entry_y_pos += 31.0
 
 		# Loop to create entry boxes for the green team
-		self.green_entries_id = []
-		self.green_entries_codename = []
+		# self.green_entries_id = []
+		# self.green_entries_codename = []
 		green_entry_x_pos = 532.0
 		green_entry_y_pos = 93.0
 		for j in range(20):
@@ -208,8 +208,8 @@ class View:
 			entry_id.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:self.controller.queryDB(id, name))
 			entry_codename.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:self.controller.storeDB(id, name))
 			#adds entry array and increases the y pos of next entry
-			self.green_entries_id.append(entry_id)
-			self.green_entries_codename.append(entry_codename)
+			# self.green_entries_id.append(entry_id)
+			# self.green_entries_codename.append(entry_codename)
 			green_entry_y_pos += 31.0
 
 		# Code below creates all of the buttons at the bottom of the window (8 buttons in total)
@@ -273,7 +273,7 @@ class View:
 			file = relative_to_assets("button_5.png"))
 		self.button_5 = Button(
 			image = self.button_image_5,
-			command = lambda redID = self.red_entries_id, redName = self.red_entries_codename, greenID = self.green_entries_id, greenName = self.green_entries_codename:self.controller.gatherEntries(redID, redName, greenID, greenName),
+			command = lambda: print("button_5 clicked"),
 			relief = "flat"
 		)
 		self.button_5.place(
