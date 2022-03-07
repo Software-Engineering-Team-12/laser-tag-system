@@ -55,7 +55,7 @@ class Model:
 			# Sets the cursor value
 			self.cursor = self.db_connection.cursor()
 
-			print('Database connection successful!\n')
+			print('Database connection successful!')
 
 		# If it fails, handle error
 		except:
@@ -73,7 +73,7 @@ class Model:
 			self.db_connection.close()
 		
 			# This will print out a message if we successfully closed the database
-			print("Database connection closed successfully!\n")
+			print("Database connection closed successfully!")
 				
 		except:
 		
@@ -90,25 +90,52 @@ class Model:
 		# Open database
 		self.db_open()
 
-		# Search player table
-		self.cursor.execute(f"SELECT * FROM players WHERE id='{player_id}'")
-		self.db_connection.commit()
+		try:
 
-		# Check results
-		data = self.cursor.fetchall()
+			# Search player table
+			self.cursor.execute(f"SELECT * FROM players WHERE id='{player_id}'")
+			self.db_connection.commit()
 
-		# Check if it exists
-		if data:
+			# Check results
+			data = self.cursor.fetchall()
 
-			# Return codename
-			return data[0][1]
+			# Check if it exists
+			if data:
 
-		else:
+				# Return codename
+				return data[0][1]
+
+			else:
 			
-			return False
+				return False
+			
+		except:
+			print('Error occured when searching the database.')
 
 		# Close database
 		self.db_close()
+
+
+	# Enter new player into player table
+	def insert_new_player(self, player_id, player_codename):
+
+		# Open database
+		self.db_open()
+
+		try:
+
+			# Enter player into table
+			self.cursor.execute(f"INSERT INTO players VALUES({player_id}, '{player_codename}')")
+			self.db_connection.commit()
+
+			print(f"Successfully added new player (id:{player_id}, codename:{player_codename}) to database!")
+
+		except:
+			print('Error occured adding new player into the database.')
+
+		# Close database
+		self.db_close()
+
 
 	# Injects data into the player relation
 	#def add_players_from_entry(self, red_list, green_list):
