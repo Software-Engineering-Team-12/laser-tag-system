@@ -4,7 +4,6 @@
 
 from pathlib import Path
 
-# from tkinter import *
 # Explicit imports to satisfy Flake8
 from tkinter import *
 
@@ -27,39 +26,56 @@ class PlayScreen:
         self.create_window()
     # TEMP METHOD: assigned to button 1 for now to test increasing teams total value for testing
     def increase(self):
-        self.red_players["codename2"] += 1000
-        self.green_players["codename20"] += 1000
+        self.red_players["codename2"] += 800
+        self.green_players["codename20"] += 900
 
     def update_score(self):
-            # creates a sorted list from each team's dictionary
-            red_sorted = sorted(self.red_players.items(), key=lambda x:x[1], reverse=TRUE)
-            green_sorted = sorted(self.green_players.items(), key=lambda x:x[1], reverse=TRUE)
+        # creates a sorted list from each team's dictionary
+        red_sorted = sorted(self.red_players.items(), key=lambda x:x[1], reverse=TRUE)
+        green_sorted = sorted(self.green_players.items(), key=lambda x:x[1], reverse=TRUE)
 
-            # iterate through each teams textbox and sorted list together
-            for textbox, lst in {self.red_team_scores:red_sorted, self.green_team_scores:green_sorted}.items():
-                # set textbox to normal for editing
-                textbox.config(state="normal")
-                # remove previous text
-                textbox.delete(1.0, END)
-                # insert new scoreboard
-                for k,v in lst:
-                    textbox.insert(END, f'{k:26}{v:6}\n')
-                # close scoreboard again so no editing can be done
-                textbox.config(state="disabled")
+        # iterate through each teams textbox and sorted list together
+        for textbox, lst in {self.red_team_scores:red_sorted, self.green_team_scores:green_sorted}.items():
+            # set textbox to normal for editing
+            textbox.config(state="normal")
+            # remove previous text
+            textbox.delete(1.0, END)
+            # insert new scoreboard
+            for k,v in lst:
+                textbox.insert(END, f'{k:26}{v:6}\n')
+            # close scoreboard again so no editing can be done
+            textbox.config(state="disabled")
 
-            # start totals
-            red_scores = 0
-            green_scores = 0
-            # calculate new total score
-            for i in self.red_players:
-                red_scores += self.red_players[i]
-            for j in self.green_players:
-                green_scores += self.green_players[j]
-            # set new total
-            self.red_total.set(max(red_scores,self.red_total.get()))
-            self.green_total.set(max(green_scores,self.green_total.get()))
-            # tkinters way of running this again after specified time
-            self.window.after(100,self.update_score)
+        # start totals
+        red_scores = 0
+        green_scores = 0
+        # calculate new total score
+        for i in self.red_players:
+            red_scores += self.red_players[i]
+        for j in self.green_players:
+            green_scores += self.green_players[j]
+        # set new total
+        self.red_total.set(max(red_scores,self.red_total.get()))
+        self.green_total.set(max(green_scores,self.green_total.get()))
+        # tkinters way of running this again after specified time
+        self.flash_score()
+        self.window.after(100,self.update_score)
+
+    # method to flash the score of the team with highest score
+    def flash_score(self):
+        # checks if red team score is greater than green team
+        if self.red_total.get() > self.green_total.get():
+            # gets the current color of the team total score text
+            self.current_color = self.red_team_total.cget("fg")
+            # sets the next color of the text
+            self.next_color = "black" if self.current_color == "red" else "red"
+            # assigns the next color to the entry text color
+            self.red_team_total.config(fg = self.next_color)
+        # checks if green team score is greater than red team
+        elif self.green_total.get() > self.red_total.get():
+            self.current_color = self.green_team_total.cget("fg")
+            self.next_color = "black" if self.current_color == "green" else "green"
+            self.green_team_total.config(fg = self.next_color)
 
     def create_window(self):
         self.red_players = {
@@ -70,13 +86,10 @@ class PlayScreen:
             "codename20": 0}
 
         self.window = Tk()
-
         self.red_total = IntVar(self.window, value=0)
-        self.green_total= IntVar(self.window, value=0)
-            
+        self.green_total= IntVar(self.window, value=0)        
         self.window.geometry("1027x832")
         self.window.configure(bg = "#000000")
-
 
         self.canvas = Canvas(
             self.window,
