@@ -8,4 +8,4 @@ if __name__=='__main__':
 	view = View.View()
 	controller = Controller.Controller(model, view)
 	view.setController(controller)
-	view.window.mainloop()
+	view.root.mainloop()
