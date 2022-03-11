@@ -17,6 +17,7 @@ class View:
 		self.main_frame.pack()
 		self.entry_screen = None
 		self.play_screen = None
+		self.current_screen = ""
 		# initialize controller
 		self.controller = None
 		# create entry screen frame
@@ -31,10 +32,11 @@ class View:
 		self.entry_screen = EntryScreen(self.main_frame, self)
 		self.entry_screen.window.pack(fill= "both", expand=True)
 		self.entry_screen.window.tkraise()
+		self.current_screen = "entry"
 
 	# swaps to play screen
 	def to_play_screen(self):
-		if self.play_screen:
+		if self.current_screen == "play":
 			print('already on play screen!')
 			return
 		self.play_screen = PlayScreen(self.main_frame, self)
@@ -42,3 +44,15 @@ class View:
 		self.play_screen.window.pack(fill= "both", expand=True)
 		self.play_screen.window.tkraise()
 		self.play_screen.update_score()
+		self.current_screen = "play"
+
+	# swap back to entry screen
+	def to_entry_screen(self):
+		if self.current_screen == "entry":
+			print('already on entry screen!')
+			return
+		self.entry_screen = EntryScreen(self.main_frame, self)
+		self.play_screen.window.forget()
+		self.entry_screen.window.pack(fill= "both", expand=True)
+		self.entry_screen.window.tkraise()
+		self.current_screen = "entry"

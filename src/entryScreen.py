@@ -153,8 +153,8 @@ class EntryScreen:
 				font = ("SegoeUI", 20 * -1)
 			)
 			# Add a bind to the entry box and codename box so when Tab is pressed it will query the id in the database and store new codename, id pair in database respectively
-			entry_id.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.queryDB(id, name))
-			entry_codename.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.storeDB(id, name))
+			entry_id.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.query_db(id, name))
+			entry_codename.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.store_db(id, name))
 			# Adds entry to array and increases the y pos of next entry
 			# self.red_entries_id.append(entry_id)
 			# self.red_entries_codename.append(entry_codename)
@@ -194,8 +194,8 @@ class EntryScreen:
 				font = ("SegoeUI", 20 * -1)
 			)
 			# Add a bind to the entry box and codename box so when Tab is pressed it will query the id in the database and store new codename, id pair in database respectively
-			entry_id.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.queryDB(id, name))
-			entry_codename.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.storeDB(id, name))
+			entry_id.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.query_db(id, name))
+			entry_codename.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.store_db(id, name))
 			#adds entry array and increases the y pos of next entry
 			# self.green_entries_id.append(entry_id)
 			# self.green_entries_codename.append(entry_codename)
@@ -206,7 +206,7 @@ class EntryScreen:
 			file = relative_to_assets("button_1.png"))
 		self.button_1 = Button(
 			image = self.button_image_1,
-			command = lambda: PlayScreen.increase(view.play_screen),
+			command = lambda: view.to_entry_screen(),
 			relief = "flat"
 		)
 		self.button_1.place(
@@ -220,7 +220,7 @@ class EntryScreen:
 			file = relative_to_assets("button_2.png"))
 		self.button_2 = Button(
 			image = self.button_image_2,
-			command = lambda: print("button_2 clicked"),
+			command = lambda: PlayScreen.increase(view.play_screen),
 			relief = "flat"
 		)
 		self.button_2.place(
