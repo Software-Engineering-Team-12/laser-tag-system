@@ -23,7 +23,9 @@ def relative_to_assets(path: str) -> Path:
 class PlayScreen:
 
     def __init__(self, parent, view):
-        self.create_window(parent, view)
+        self.startTime = time.time()
+        self.create_window()
+        self.change_time()
     # TEMP METHOD: assigned to button 1 for now to test increasing teams total value for testing
     def increase(self):
         self.red_players["codename2"] += 800
@@ -77,6 +79,19 @@ class PlayScreen:
             self.current_color = self.green_team_total.cget("fg")
             self.next_color = "black" if self.current_color == "green" else "green"
             self.green_team_total.config(fg = self.next_color)
+
+    def change_time(self):
+        self.timeLeft = int(361-(time.time() - self.startTime))
+        if self.timeLeft >= 0:
+            self.minutes = int(self.timeLeft/60)
+            self.seconds = self.timeLeft%60
+            if self.seconds == 0:
+                self.canvas.itemconfig(self.countdown, text = str(self.minutes) + ":" + "00")
+            elif self.seconds < 10:
+                self.canvas.itemconfig(self.countdown, text = str(self.minutes) + ":" + "0" + str(self.seconds))
+            else:
+                self.canvas.itemconfig(self.countdown, text = str(self.minutes) + ":" + str(self.seconds))
+        self.window.after(1000, self.change_time)
 
     def create_window(self, parent, view):
         self.red_players = {
