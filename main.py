@@ -1,11 +1,12 @@
-import src.view as View
-import src.controller as Controller
-import src.model as Model
+from src.view import View
+from src.controller import Controller
+from src.model import Model
 # Main function
 if __name__=='__main__':
 
-	model = Model.Model()
-	view = View.View()
-	controller = Controller.Controller(model, view)
+	model = Model()
+	model.get_db_cred()
+	view = View()
+	controller = Controller(model, view)
 	view.setController(controller)
 	view.root.mainloop()

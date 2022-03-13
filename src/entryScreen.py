@@ -1,18 +1,11 @@
-from pathlib import Path
-# Explicit imports to satisfy Flake8
-from tkinter import Canvas, Entry, Button, PhotoImage
+from tkinter import Canvas, Entry
 import tkinter
-from .playScreen import PlayScreen
-
-OUTPUT_PATH = Path(__file__).parent
-ASSETS_PATH = OUTPUT_PATH / Path("./gui_assets")
-
-def relative_to_assets(path: str) -> Path:
-    return ASSETS_PATH / Path(path)
 
 class EntryScreen:
     	# Create Entry Screen
 	def __init__(self, parent, view):
+		self.red_team = {}
+		self.green_team = {}
 		self.window = tkinter.Frame(parent, bg='black')
 		self.canvas = Canvas(
 			self.window,
@@ -153,8 +146,8 @@ class EntryScreen:
 				font = ("SegoeUI", 20 * -1)
 			)
 			# Add a bind to the entry box and codename box so when Tab is pressed it will query the id in the database and store new codename, id pair in database respectively
-			entry_id.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.query_db(id, name))
-			entry_codename.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.store_db(id, name))
+			entry_id.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.query_db(id, name, self.red_team))
+			entry_codename.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.store_db(id, name, self.red_team))
 			# Adds entry to array and increases the y pos of next entry
 			# self.red_entries_id.append(entry_id)
 			# self.red_entries_codename.append(entry_codename)
@@ -194,122 +187,9 @@ class EntryScreen:
 				font = ("SegoeUI", 20 * -1)
 			)
 			# Add a bind to the entry box and codename box so when Tab is pressed it will query the id in the database and store new codename, id pair in database respectively
-			entry_id.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.query_db(id, name))
-			entry_codename.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.store_db(id, name))
+			entry_id.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.query_db(id, name, self.green_team))
+			entry_codename.bind('<Tab>',lambda event, id = entry_id, name = entry_codename:view.controller.store_db(id, name, self.green_team))
 			#adds entry array and increases the y pos of next entry
 			# self.green_entries_id.append(entry_id)
 			# self.green_entries_codename.append(entry_codename)
 			green_entry_y_pos += 31.0
-
-		# Code below creates all of the buttons at the bottom of the window (8 buttons in total)
-		self.button_image_1 = PhotoImage(
-			file = relative_to_assets("button_1.png"))
-		self.button_1 = Button(
-			image = self.button_image_1,
-			command = lambda: view.to_entry_screen(),
-			relief = "flat"
-		)
-		self.button_1.place(
-			x = 0.0,
-			y = 745.0,
-			width = 86.0,
-			height = 87.0
-		)
-
-		self.button_image_2 = PhotoImage(
-			file = relative_to_assets("button_2.png"))
-		self.button_2 = Button(
-			image = self.button_image_2,
-			command = lambda: PlayScreen.increase(view.play_screen),
-			relief = "flat"
-		)
-		self.button_2.place(
-			x = 86.0,
-			y = 745.0,
-			width = 85.0,
-			height = 87.0
-		)
-
-		self.button_image_3 = PhotoImage(
-			file = relative_to_assets("button_3.png"))
-		self.button_3 = Button(
-			image = self.button_image_3,
-			command = lambda: print("button_3 clicked"),
-			relief = "flat"
-		)
-		self.button_3.place(
-			x = 171.0,
-			y = 745.0,
-			width = 86.0,
-			height = 87.0
-		)
-
-		self.button_image_4 = PhotoImage(
-			file = relative_to_assets("button_4.png"))
-		self.button_4 = Button(
-			image = self.button_image_4,
-			command = lambda: view.to_play_screen(),
-			relief = "flat",
-		)
-		self.button_4.place(
-			x = 342.0,
-			y = 745.0,
-			width = 86.0,
-			height = 87.0
-		)
-
-		self.button_image_5 = PhotoImage(
-			file = relative_to_assets("button_5.png"))
-		self.button_5 = Button(
-			image = self.button_image_5,
-			command = lambda: print("button_5 clicked"),
-			relief = "flat"
-		)
-		self.button_5.place(
-			x = 514.0,
-			y = 745.0,
-			width = 85.0,
-			height = 87.0
-		)
-
-		self.button_image_6 = PhotoImage(
-			file = relative_to_assets("button_6.png"))
-		self.button_6 = Button(
-			image = self.button_image_6,
-			command = lambda: print("button_6 clicked"),
-			relief = "flat"
-		)
-		self.button_6.place(
-			x = 599.0,
-			y = 745.0,
-			width = 86.0,
-			height = 87.0
-		)
-
-		self.button_image_7 = PhotoImage(
-			file = relative_to_assets("button_7.png"))
-		self.button_7 = Button(
-			image = self.button_image_7,
-			command = lambda: print("button_7 clicked"),
-			relief = "flat"
-		)
-		self.button_7.place(
-			x = 770.0,
-			y = 745.0,
-			width = 86.0,
-			height = 87.0
-		)
-
-		self.button_image_8 = PhotoImage(
-			file = relative_to_assets("button_8.png"))
-		self.button_8 = Button(
-			image = self.button_image_8,
-			command = lambda: print("button_8 clicked"),
-			relief = "flat"
-		)
-		self.button_8.place(
-			x = 941.0,
-			y = 745.0,
-			width = 86.0,
-			height = 87.0
-		)
