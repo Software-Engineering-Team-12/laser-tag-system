@@ -81,14 +81,16 @@ class PlayScreen:
             self.green_team_total.config(fg = self.next_color)
 
     def change_time(self):
+        #calculates current time that remains
         self.timeLeft = int(361-(time.time() - self.startTime))
+        #stops counting down if time is up
         if self.timeLeft >= 0:
             self.minutes = int(self.timeLeft/60)
             self.seconds = self.timeLeft%60
-            if self.seconds == 0:
-                self.canvas.itemconfig(self.countdown, text = str(self.minutes) + ":" + "00")
-            elif self.seconds < 10:
+            #adds extra 0 in front when less than 10 seconds remain in a minute
+            if self.seconds < 10:
                 self.canvas.itemconfig(self.countdown, text = str(self.minutes) + ":" + "0" + str(self.seconds))
+            #standard procedure for changing countdown text
             else:
                 self.canvas.itemconfig(self.countdown, text = str(self.minutes) + ":" + str(self.seconds))
         self.window.after(1000, self.change_time)
