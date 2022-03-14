@@ -1,2 +1,2 @@
 psycopg2==2.9.3
-pillow
+pillow==9.0.1
