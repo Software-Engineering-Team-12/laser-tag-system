@@ -90,7 +90,7 @@ class PlayScreen:
                 self.canvas.itemconfig(self.warning_time, text = f'Warning 1 minutes left')
             elif (self.timeLeft == 30):
                 self.canvas.itemconfig(self.warning_time, text = f'Warning 30 minutes left')
-            elif (self.timeLeft = 0):
+            elif (self.timeLeft == 0):
                 self.canvas.itemconfig(self.warning_time, text = f'End of time')
         self.window.after(1000, self.change_time)
 
