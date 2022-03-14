@@ -83,6 +83,15 @@ class PlayScreen:
             self.minutes = int(self.timeLeft/60)
             self.seconds = self.timeLeft%60
             self.canvas.itemconfig(self.countdown, text = f'Time Remaining: {self.minutes:02}:{self.seconds:02}')
+
+            if(self.timeLeft == 180):
+                self.canvas.itemconfig(self.warning_time, text = f'Warning 3 minutes left')
+            elif (self.timeLeft == 60):
+                self.canvas.itemconfig(self.warning_time, text = f'Warning 1 minutes left')
+            elif (self.timeLeft == 30):
+                self.canvas.itemconfig(self.warning_time, text = f'Warning 30 minutes left')
+            elif (self.timeLeft = 0):
+                self.canvas.itemconfig(self.warning_time, text = f'End of time')
         self.window.after(1000, self.change_time)
 
 
@@ -116,11 +125,20 @@ class PlayScreen:
 
         self.countdown = self.canvas.create_text(
             549.0,
-            633.0,
+            630.0,
             anchor="nw",
             text="Time Remaining: 0:00",
             fill="#FFFFFF",
             font=("RobotoRoman Bold", 30 * -1)
+        )
+
+        self.warning_time = self.canvas.create_text(
+            140.0,
+            630.0,
+            anchor = "nw",
+            text = "",
+            fill = "#FFFFFF",
+            font = ("RobotoRoman Bold", 30 * -1)
         )
 
         # self.time_text = self.canvas.create_text(
