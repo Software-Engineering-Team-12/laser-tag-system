@@ -73,26 +73,29 @@ class PlayScreen:
     def change_time(self):
         # calculates current time that remains
         self.timeLeft = int(391-(time.time() - self.startTime))
-        # show warning timer first
-        if self.timeLeft > 360:
-            self.minutes = int((self.timeLeft-360)/60)
-            self.seconds = self.timeLeft%60
-            self.canvas.itemconfig(self.countdown, text = f'Game Starting in: {self.minutes:02}:{self.seconds:02}')
-        # stops counting down if time is up
+        # stop timer when time is up
+        if self.timeLeft <= 0:
+            self.canvas.itemconfig(self.warning_time, text = f'Times up!')
+            self.canvas.itemconfig(self.countdown, text = f'Time Remaining: 0:00')
         else:
-            self.minutes = int(self.timeLeft/60)
-            self.seconds = self.timeLeft%60
-            self.canvas.itemconfig(self.countdown, text = f'Time Remaining: {self.minutes:02}:{self.seconds:02}')
+            # show warning timer first
+            if self.timeLeft > 360:
+                self.minutes = int((self.timeLeft-360)/60)
+                self.seconds = self.timeLeft%60
+                self.canvas.itemconfig(self.countdown, text = f'Game Starting in: {self.minutes:02}:{self.seconds:02}')
+            # stops counting down if time is up
+            elif self.timeLeft != 0:
+                self.minutes = int(self.timeLeft/60)
+                self.seconds = self.timeLeft%60
+                self.canvas.itemconfig(self.countdown, text = f'Time Remaining: {self.minutes:02}:{self.seconds:02}')
 
-            if(self.timeLeft == 180):
-                self.canvas.itemconfig(self.warning_time, text = f'Warning 3 minutes left')
-            elif (self.timeLeft == 60):
-                self.canvas.itemconfig(self.warning_time, text = f'Warning 1 minutes left')
-            elif (self.timeLeft == 30):
-                self.canvas.itemconfig(self.warning_time, text = f'Warning 30 minutes left')
-            elif (self.timeLeft == 0):
-                self.canvas.itemconfig(self.warning_time, text = f'End of time')
-        self.window.after(1000, self.change_time)
+                if(self.timeLeft == 180):
+                    self.canvas.itemconfig(self.warning_time, text = f'Warning 3 minutes left!')
+                elif (self.timeLeft == 60):
+                    self.canvas.itemconfig(self.warning_time, text = f'Warning 1 minutes left!')
+                elif (self.timeLeft == 30):
+                    self.canvas.itemconfig(self.warning_time, text = f'Warning 30 seconds left!')
+            self.window.after(1000, self.change_time)
 
 
     def create_window(self, parent, entry_screen):
@@ -140,15 +143,6 @@ class PlayScreen:
             fill = "#FFFFFF",
             font = ("RobotoRoman Bold", 30 * -1)
         )
-
-        # self.time_text = self.canvas.create_text(
-        #     549.0,
-        #     633.0,
-        #     anchor="nw",
-        #     text="Time Remaining:",
-        #     fill="#FFFFFF",
-        #     font=("RobotoRoman Bold", 30 * -1)
-        # )
 
         self.red_team_total = Entry(
             self.window,
