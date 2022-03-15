@@ -10,10 +10,10 @@ class SplashScreen:
 	def __init__(self):
 
         #Opens logo image using pill
-		self.logo = Image.open('src/Logo.png')
+		self.logo = Image.open('src/gui_assets/Logo.png')
 
 		#Opens background image using pill
-		self.background = Image.open("src/background.png")
+		self.background = Image.open("src/gui_assets/background.png")
 
 		self.image_resizing()
 		self.displaySplash()
