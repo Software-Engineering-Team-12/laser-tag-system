@@ -11,9 +11,9 @@ def relative_to_assets(path: str) -> Path:
     return ASSETS_PATH / Path(path)
 class PlayScreen:
 
-    def __init__(self, parent, entry_screen):
+    def __init__(self, parent, entry_screen, view):
         self.startTime = time.time()
-        self.create_window(parent, entry_screen)
+        self.create_window(parent, entry_screen, view)
         self.change_time()
     # TEMP METHOD: assigned to button 1 for now to test increasing teams total value for testing
     def increase(self):
@@ -34,7 +34,7 @@ class PlayScreen:
                 textbox.delete(1.0, END)
                 # insert new scoreboard
                 for k,v in lst:
-                    textbox.insert(END, f'{k:26}{v:6}\n')
+                    textbox.insert(END, f'{k:27}{v:6}\n')
                 # close scoreboard again so no editing can be done
                 textbox.config(state="disabled")
 
@@ -98,52 +98,58 @@ class PlayScreen:
             self.window.after(1000, self.change_time)
 
 
-    def create_window(self, parent, entry_screen):
+    def create_window(self, parent, entry_screen, view):
+        # set team dictionaries from entry screen
         self.red_players = entry_screen.red_team
         self.green_players = entry_screen.green_team
-
+        # create screen
         self.window = tkinter.Frame(parent)
         self.window.configure(bg = "#000000")
+        # initialize team totals
         self.red_total = IntVar(self.window, value=0)
         self.green_total= IntVar(self.window, value=0)
-        
+        # initialize canvas
         self.canvas = Canvas(
             self.window,
             bg = "#000000",
-            height = 747,
-            width = 1027,
+            height = view.WINDOW_HEIGHT,
+            width = view.WINDOW_WIDTH,
             bd = 0,
             highlightthickness = 0,
             relief = "ridge"
         )
         self.canvas.pack()
-
+        
+        # create and place UI
         self.image_image_1 = PhotoImage(
             file=relative_to_assets("image_1.png"))
         self.image_1 = self.canvas.create_image(
-            513.0,
-            365.0,
-            image=self.image_image_1
+            view.WINDOW_WIDTH / 2,
+            view.WINDOW_HEIGHT * 0.45,
+            image=self.image_image_1,
         )
 
+        # create and place timer 
         self.countdown = self.canvas.create_text(
-            549.0,
-            630.0,
+            view.WINDOW_WIDTH * 0.53,
+            view.WINDOW_HEIGHT * 0.8,
             anchor="nw",
             text="Time Remaining: 0:00",
             fill="#FFFFFF",
             font=("RobotoRoman Bold", 30 * -1)
         )
 
+        # create and place warning message
         self.warning_time = self.canvas.create_text(
-            140.0,
-            630.0,
+            view.WINDOW_WIDTH * 0.136,
+            view.WINDOW_HEIGHT * 0.8,
             anchor = "nw",
             text = "",
             fill = "#FFFFFF",
             font = ("RobotoRoman Bold", 30 * -1)
         )
 
+        # create and place red team's total score box
         self.red_team_total = Entry(
             self.window,
             bd=0,
@@ -156,12 +162,31 @@ class PlayScreen:
         )
         self.red_team_total.config(state="readonly")
         self.red_team_total.place(
-            x=422.0,
-            y=318.0,
+            x=view.WINDOW_WIDTH * 0.498,
+            y=view.WINDOW_HEIGHT * 0.4,
             width=91.0,
-            height=29.0
+            height=29.0,
+            anchor="e"
         )
 
+        # create and place red team's scoreboard
+        self.red_team_scores = Text(
+            self.window,
+            bd=0,
+            bg="black",
+            fg="red",
+            font="SegoeUI 20",
+            highlightthickness=0,
+            state="disabled"
+        )
+        self.red_team_scores.place(
+            x=view.WINDOW_WIDTH * 0.1,
+            y=view.WINDOW_HEIGHT * 0.11,
+            width=383.0,
+            height=208.0
+        )
+
+        # create and place green team's total score box
         self.green_team_total = Entry(
             self.window,
             bd=0,
@@ -174,12 +199,31 @@ class PlayScreen:
         )
         self.green_team_total.config(state="readonly")
         self.green_team_total.place(
-            x=812.0,
-            y=318.0,
+            x=view.WINDOW_WIDTH * 0.898,
+            y=view.WINDOW_HEIGHT * 0.4,
             width=91.0,
-            height=29.0
+            height=29.0,
+            anchor="e"
         )
 
+        # create and place green team's scoreboard
+        self.green_team_scores = Text(
+            self.window,
+            bd=0,
+            bg="black",
+            fg="green",
+            font="SegoeUI 20",
+            highlightthickness=0,
+            state="disabled",
+        )
+        self.green_team_scores.place(
+            x=view.WINDOW_WIDTH * 0.5,
+            y=view.WINDOW_HEIGHT * 0.11,
+            width=383.0,
+            height=208.0
+        )
+
+        # create and place action log box
         self.action_display = Text(
             self.window,
             bd=0,
@@ -189,41 +233,10 @@ class PlayScreen:
             highlightthickness=0
         )
         self.action_display.place(
-            x=142.0,
-            y=382.0,
+            x=view.WINDOW_WIDTH * 0.499,
+            y=view.WINDOW_HEIGHT * 0.46,
             width=372.0,
-            height=230.0
-        )
-
-        self.red_team_scores = Text(
-            self.window,
-            bd=0,
-            bg="#000000",
-            fg="red",
-            font="SegoeUI 20",
-            highlightthickness=0,
-            state="disabled"
-        )
-        self.red_team_scores.place(
-            x=130.0,
-            y=108.0,
-            width=383.0,
-            height=208.0
-        )
-
-        self.green_team_scores = Text(
-            self.window,
-            bd=0,
-            bg="#000000",
-            fg="green",
-            font="SegoeUI 20",
-            highlightthickness=0,
-            state="disabled"
-        )
-        self.green_team_scores.place(
-            x=518.0,
-            y=108.0,
-            width=383.0,
-            height=208.0
+            height=230.0,
+            anchor="ne"
         )
         

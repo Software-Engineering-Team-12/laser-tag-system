@@ -1,7 +1,7 @@
 import tkinter
 from .entryScreen import EntryScreen
 from .playScreen import PlayScreen
-from tkinter import Tk, Button, PhotoImage
+from tkinter import Tk, Button
 from pathlib import Path
 
 OUTPUT_PATH = Path(__file__).parent
@@ -17,12 +17,24 @@ class View:
 	def __init__(self):
 		# create main window
 		self.root = Tk()
-		self.root.geometry("1027x832")
-		self.root.configure(bg = "#000000")
+		# get screen dimensions
+		self.SCREEN_HEIGHT = self.root.winfo_screenheight()
+		self.SCREEN_WIDTH = self.root.winfo_screenwidth()
+		# set window dimensions
+		self.WINDOW_WIDTH = 960
+		self.WINDOW_HEIGHT = 768
+		# calculate center of screen
+		self.CENTER_HEIGHT = (self.SCREEN_HEIGHT//2) - (self.WINDOW_HEIGHT//2)
+		self.CENTER_WIDTH = (self.SCREEN_WIDTH//2) - (self.WINDOW_WIDTH//2)
+		# set opening position of window to center
+		self.root.geometry(f'{self.WINDOW_WIDTH}x{self.WINDOW_HEIGHT}+{self.CENTER_WIDTH}+{self.CENTER_HEIGHT}')
+		self.root.configure(bg = "black")
 		self.root.title('Player Entry Screen')
 		self.root.resizable(False, False)
-		self.main_frame = tkinter.Frame(self.root,height=747,width=1027,bg='white')
+		# create frame that screens transition on
+		self.main_frame = tkinter.Frame(self.root,height=self.WINDOW_HEIGHT,width=self.WINDOW_WIDTH,bg='white')
 		self.main_frame.pack()
+		# initialize screen variables
 		self.entry_screen = None
 		self.play_screen = None
 		self.current_screen = ""
@@ -49,7 +61,7 @@ class View:
 		if self.current_screen == "play":
 			print('already on play screen!')
 			return
-		self.play_screen = PlayScreen(self.main_frame, self.entry_screen)
+		self.play_screen = PlayScreen(self.main_frame, self.entry_screen, self)
 		self.entry_screen.window.forget()
 		self.play_screen.window.pack(fill= "both", expand=True)
 		self.play_screen.update_score()
@@ -67,117 +79,47 @@ class View:
 
 	# create buttons
 	def create_buttons(self):
-				# Code below creates all of the buttons at the bottom of the window (8 buttons in total)
-		self.button_image_1 = PhotoImage(
-			file = relative_to_assets("button_1.png"))
+	# Code below creates the buttons at the bottom of the window
 		self.button_1 = Button(
-			image = self.button_image_1,
 			command = lambda:self.to_entry_screen(),
-			relief = "flat"
+			anchor="center",
+			text= "F1\n Edit\n Game",
+			font= ("SegoeUI", -int(self.WINDOW_WIDTH * 0.01947)),
+			bg="#4B0909",
+			fg="white",
+			justify="center",
+			highlightthickness=4,
+			highlightcolor= "white",
+			borderwidth=5
 		)
 		self.button_1.place(
-			x = 0.0,
-			y = 745.0,
-			width = 86.0,
-			height = 87.0
+			x = self.WINDOW_WIDTH / 2,
+			y = self.WINDOW_HEIGHT,
+			width= self.WINDOW_WIDTH * 0.109,
+			height= self.WINDOW_HEIGHT * 0.109,
+			anchor="se"
 		)
 
-		self.button_image_2 = PhotoImage(
-			file = relative_to_assets("button_2.png"))
-		self.button_2 = Button(
-			image = self.button_image_2,
-			command = lambda: self.play_screen.increase(),
-			relief = "flat"
-		)
-		self.button_2.place(
-			x = 86.0,
-			y = 745.0,
-			width = 85.0,
-			height = 87.0
-		)
-
-		self.button_image_3 = PhotoImage(
-			file = relative_to_assets("button_3.png"))
-		self.button_3 = Button(
-			image = self.button_image_3,
-			command = lambda: print("button_3 clicked"),
-			relief = "flat"
-		)
-		self.button_3.place(
-			x = 171.0,
-			y = 745.0,
-			width = 86.0,
-			height = 87.0
-		)
-
-		self.button_image_4 = PhotoImage(
-			file = relative_to_assets("button_4.png"))
 		self.button_4 = Button(
-			image = self.button_image_4,
+			# image = self.button_image_4,
 			command = lambda:self.to_play_screen(),
-			relief = "flat",
+			anchor="center",
+			text= "F5\n Start\n Game",
+			font= ("SegoeUI", -int(self.WINDOW_WIDTH * 0.01947)),
+			bg="#4B0909",
+			fg="white",
+			justify="center",
+			highlightthickness=4,
+			highlightcolor= "white",
+			borderwidth=5
 		)
 		self.button_4.place(
-			x = 342.0,
-			y = 745.0,
-			width = 86.0,
-			height = 87.0
+			x = self.WINDOW_WIDTH / 2,
+			y = self.WINDOW_HEIGHT,
+			width= self.WINDOW_WIDTH * 0.109,
+			height= self.WINDOW_HEIGHT * 0.109,
+			anchor="sw"
 		)
-
-		self.button_image_5 = PhotoImage(
-			file = relative_to_assets("button_5.png"))
-		self.button_5 = Button(
-			image = self.button_image_5,
-			command = lambda: print("button_5 clicked"),
-			relief = "flat"
-		)
-		self.button_5.place(
-			x = 514.0,
-			y = 745.0,
-			width = 85.0,
-			height = 87.0
-		)
-
-		self.button_image_6 = PhotoImage(
-			file = relative_to_assets("button_6.png"))
-		self.button_6 = Button(
-			image = self.button_image_6,
-			command = lambda: print("button_6 clicked"),
-			relief = "flat"
-		)
-		self.button_6.place(
-			x = 599.0,
-			y = 745.0,
-			width = 86.0,
-			height = 87.0
-		)
-
-		self.button_image_7 = PhotoImage(
-			file = relative_to_assets("button_7.png"))
-		self.button_7 = Button(
-			image = self.button_image_7,
-			command = lambda: print("button_7 clicked"),
-			relief = "flat"
-		)
-		self.button_7.place(
-			x = 770.0,
-			y = 745.0,
-			width = 86.0,
-			height = 87.0
-		)
-
-		self.button_image_8 = PhotoImage(
-			file = relative_to_assets("button_8.png"))
-		self.button_8 = Button(
-			image = self.button_image_8,
-			command = lambda: print("button_8 clicked"),
-			relief = "flat"
-		)
-		self.button_8.place(
-			x = 941.0,
-			y = 745.0,
-			width = 86.0,
-			height = 87.0
-		)
+		# bind F-keys to their corresponding button
 		self.root.bind_all('<F5>', lambda event: self.button_4.invoke())
 		self.root.bind_all('<F1>', lambda event: self.button_1.invoke())

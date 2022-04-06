@@ -43,9 +43,9 @@ class SplashScreen:
 
 	def set_window_dimensions(self):
 
-		self.window_width = 900
+		self.window_width = 960
 
-		self.window_height = 600
+		self.window_height = 768
 
 		#Holds screen center dimensions
 		self.center_window_width = (self.screen_width/2) - (self.window_width/2)
