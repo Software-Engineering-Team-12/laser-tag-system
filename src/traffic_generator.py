@@ -19,9 +19,9 @@ class trafficGenerator(Thread):
 	# method that runs when .start() is called
 	def run(self):
 		self.running = True
-		# counter number of events, random player and order
-		i = 1
-		while i < int(self.counter):
+		# while loop runs for 6 minutes, chooses random player from each team, randomizes who hits who, sends to server
+		time_end = time.time() + 60 * 6
+		while time.time() < time_end:
 			redplayer = random.choice(list(self.red))
 			greenplayer = random.choice(list(self.green))
 
@@ -30,7 +30,6 @@ class trafficGenerator(Thread):
 			else:
 				message = greenplayer + ":" + redplayer
 
-			i+=1;
 			self.UDPClientSocketTransmit.sendto(str.encode(str(message)), self.serverAddressPort)
 			time.sleep(random.randint(1,3))
 			

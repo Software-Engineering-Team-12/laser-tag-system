@@ -29,7 +29,7 @@ class PlayScreen:
 
     def update_action_log(self, message):
         # insert action to text box
-        self.action_display.insert(END, f'{message}\n')
+        self.action_display.insert(END, f'{message.replace(":", " hit ")}\n')
         self.action_display.see(END)
         # increment score of leading player
         lead = message.split(":")[0]
@@ -87,10 +87,14 @@ class PlayScreen:
             self.current_color = self.green_team_total.cget("fg")
             self.next_color = "black" if self.current_color == "green" else "green"
             self.green_team_total.config(fg = self.next_color)
+        # if team totals are equal keep team colors solid with no flashing
+        elif self.green_team_total.get() == self.red_team_total.get():
+            self.green_team_total.config(fg = "green")
+            self.red_team_total.config(fg = "red")
     
     def change_time(self):
         # calculates current time that remains
-        self.timeLeft = int(362-(time.time() - self.startTime))
+        self.timeLeft = int(391-(time.time() - self.startTime))
         # stop timer when time is up
         if self.timeLeft <= 0:
             self.canvas.itemconfig(self.warning_time, text = f'Times up!')
