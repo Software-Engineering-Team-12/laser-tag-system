@@ -2,6 +2,8 @@ from pathlib import Path
 import time
 from tkinter import *
 import tkinter
+from .socket import gameSocket
+from .traffic_generator import trafficGenerator
 
 
 OUTPUT_PATH = Path(__file__).parent
@@ -15,11 +17,26 @@ class PlayScreen:
         self.startTime = time.time()
         self.create_window(parent, entry_screen, view)
         self.change_time()
+        self.game_Socket = gameSocket(self)
+        self.game_Socket.start()
+        self.traffic = trafficGenerator()
+        self.traffic.set_teams(self.red_players,self.green_players)
     # TEMP METHOD: assigned to button 1 for now to test increasing teams total value for testing
     def increase(self):
         for key1,key2 in zip(self.red_players,self.green_players):
             self.red_players[key1] += 800
             self.green_players[key2] += 900
+
+    def update_action_log(self, message):
+        # insert action to text box
+        self.action_display.insert(END, f'{message}\n')
+        self.action_display.see(END)
+        # increment score of leading player
+        lead = message.split(":")[0]
+        if lead in self.red_players:
+            self.red_players[lead] += 100
+        else:
+            self.green_players[lead] += 100
 
     def update_score(self):
             # creates a sorted list from each team's dictionary
@@ -41,6 +58,7 @@ class PlayScreen:
             # start totals
             red_scores = 0
             green_scores = 0
+
             # calculate new total score
             for i in self.red_players:
                 red_scores += self.red_players[i]
@@ -72,7 +90,7 @@ class PlayScreen:
     
     def change_time(self):
         # calculates current time that remains
-        self.timeLeft = int(391-(time.time() - self.startTime))
+        self.timeLeft = int(362-(time.time() - self.startTime))
         # stop timer when time is up
         if self.timeLeft <= 0:
             self.canvas.itemconfig(self.warning_time, text = f'Times up!')
@@ -85,6 +103,8 @@ class PlayScreen:
                 self.canvas.itemconfig(self.countdown, text = f'Game Starting in: {self.minutes:02}:{self.seconds:02}')
             # stops counting down if time is up
             elif self.timeLeft != 0:
+                if not self.traffic.running:
+                    self.traffic.start()
                 self.minutes = int(self.timeLeft/60)
                 self.seconds = self.timeLeft%60
                 self.canvas.itemconfig(self.countdown, text = f'Time Remaining: {self.minutes:02}:{self.seconds:02}')
@@ -100,8 +120,8 @@ class PlayScreen:
 
     def create_window(self, parent, entry_screen, view):
         # set team dictionaries from entry screen
-        self.red_players = entry_screen.red_team
-        self.green_players = entry_screen.green_team
+        self.red_players = entry_screen.red_team.copy()
+        self.green_players = entry_screen.green_team.copy()
         # create screen
         self.window = tkinter.Frame(parent)
         self.window.configure(bg = "#000000")

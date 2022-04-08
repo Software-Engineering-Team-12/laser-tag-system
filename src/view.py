@@ -72,6 +72,8 @@ class View:
 		if self.current_screen == "entry":
 			print('already on entry screen!')
 			return
+		# destroy socket thread
+		self.play_screen.game_Socket.stop()
 		self.play_screen.window.destroy()
 		self.entry_screen.window.pack(fill= "both", expand=True)
 		self.entry_screen.window.tkraise()
