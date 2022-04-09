@@ -15,6 +15,7 @@ class PlayScreen:
 
     def __init__(self, parent, entry_screen, view):
         self.startTime = time.time()
+        self.view = view
         self.create_window(parent, entry_screen, view)
         self.change_time()
         self.game_Socket = gameSocket(self)
@@ -99,6 +100,12 @@ class PlayScreen:
         if self.timeLeft <= 0:
             self.canvas.itemconfig(self.warning_time, text = f'Times up!')
             self.canvas.itemconfig(self.countdown, text = f'Time Remaining: 0:00')
+            if self.red_total.get() > self.green_total.get():
+                self.view.to_result_screen("Red")
+            elif self.green_total.get() > self.red_total.get():
+                self.view.to_result_screen("Green")
+            else:
+                self.view.to_result_screen("Tie")
         else:
             # show warning timer first
             if self.timeLeft > 360:
@@ -120,6 +127,7 @@ class PlayScreen:
                 elif (self.timeLeft == 30):
                     self.canvas.itemconfig(self.warning_time, text = f'Warning 30 seconds left!')
             self.window.after(1000, self.change_time)
+
 
 
     def create_window(self, parent, entry_screen, view):

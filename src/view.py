@@ -1,6 +1,7 @@
 import tkinter
 from .entryScreen import EntryScreen
 from .playScreen import PlayScreen
+from .resultScreen import ResultScreen
 from tkinter import Tk, Button
 from pathlib import Path
 
@@ -62,7 +63,11 @@ class View:
 			print('already on play screen!')
 			return
 		self.play_screen = PlayScreen(self.main_frame, self.entry_screen, self)
-		self.entry_screen.window.forget()
+		if self.current_screen == "entry":
+			self.entry_screen.window.forget()
+		# destroys result screen if game has ended and needs to restart
+		if self.current_screen == "result":
+			self.result_screen.window.destroy()
 		self.play_screen.window.pack(fill= "both", expand=True)
 		self.play_screen.update_score()
 		self.current_screen = "play"
@@ -73,11 +78,23 @@ class View:
 			print('already on entry screen!')
 			return
 		# destroy socket thread
-		self.play_screen.game_Socket.stop()
-		self.play_screen.window.destroy()
+		if self.current_screen == "play":
+			self.play_screen.game_Socket.stop()
+			self.play_screen.window.destroy()
+		# destroys result screen if game has ended and needs to be edited
+		if self.current_screen == "result":
+			self.result_screen.window.destroy()
 		self.entry_screen.window.pack(fill= "both", expand=True)
 		self.entry_screen.window.tkraise()
 		self.current_screen = "entry"
+
+	#swaps to result screen
+	def to_result_screen(self, winner):
+		self.result_screen = ResultScreen(self.main_frame, self.entry_screen, self, winner)
+		self.play_screen.game_Socket.stop()
+		self.play_screen.window.destroy()
+		self.result_screen.window.pack(fill= "both", expand=True)
+		self.current_screen = "result"
 
 	# create buttons
 	def create_buttons(self):
