@@ -80,6 +80,7 @@ class View:
 		# destroy socket thread
 		if self.current_screen == "play":
 			self.play_screen.game_Socket.stop()
+			self.play_screen.traffic.stop()
 			self.play_screen.window.destroy()
 		# destroys result screen if game has ended and needs to be edited
 		if self.current_screen == "result":

@@ -21,7 +21,7 @@ class trafficGenerator(Thread):
 		self.running = True
 		# while loop runs for 6 minutes, chooses random player from each team, randomizes who hits who, sends to server
 		time_end = time.time() + 60 * 6
-		while time.time() < time_end:
+		while time.time() < time_end and self.running:
 			redplayer = random.choice(list(self.red))
 			greenplayer = random.choice(list(self.green))
 
@@ -38,3 +38,7 @@ class trafficGenerator(Thread):
 	def set_teams(self, red_team, green_team):
 		self.red = red_team
 		self.green = green_team
+	
+	# stop traffic generator
+	def stop(self):
+		self.running = False
